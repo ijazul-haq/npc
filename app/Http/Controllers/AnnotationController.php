@@ -18,20 +18,20 @@ class AnnotationController extends Controller {
 
     public function annotation() {
         $sentence = Checkup::orderBy('annotation_count', 'DESC' )->orderBy('id', 'ASC' )->first();
+        
         // $sentence = Sentence::where('id','>', 72834)->where('status',0)->orderBy( 'id', 'ASC' )->first();
 
         // $sentence = Sentence::where( 'offensive', 1 )->where('status', 0)->orderBy( 'id', 'ASC' )->first();
-
         // $sentence = json_decode( $sentence, true );
         return view('annotation', [ 'checkup' => $sentence ]);
     }
 
-    // public function edit( Request $request, $id ) {
-    //     echo 'Hello=================';
-    //     $data = json_encode( $request->checkup, JSON_UNESCAPED_UNICODE );
-    //     $checkup = Checkup::where( 'id', $id )->update( [ 'annotation_count' => 1 ] );
-    //     return json_encode( [ 'msg'=>'Success', 'status'=>200 ] );
-    // }
+    public function edit( Request $request, $id ) {
+        echo 'Hello=================';
+        $data = json_encode( $request->checkup, JSON_UNESCAPED_UNICODE );
+        $checkup = Checkup::where( 'id', $id )->update( [ 'annotation_count' => 1 ] );
+        return json_encode( [ 'msg'=>'Success', 'status'=>200 ] );
+    }
 
     public function skip( Request $request, $id ) {
         $data = json_encode( $request->data, JSON_UNESCAPED_UNICODE );
