@@ -17,7 +17,7 @@ class AnnotationController extends Controller {
     */
 
     public function annotation() {
-        $sentence = Checkup::orderBy('annotation_count', 'DESC' )->orderBy('id', 'ASC' )->first();
+        $sentence = Checkup::orderBy('annotation_count', 'ASC' )->orderBy('id', 'ASC' )->first();
         
         // $sentence = Sentence::where('id','>', 72834)->where('status',0)->orderBy( 'id', 'ASC' )->first();
 
@@ -27,8 +27,8 @@ class AnnotationController extends Controller {
     }
 
     public function edit( Request $request, $id ) {
-        $data = json_encode( $request->checkup, JSON_UNESCAPED_UNICODE );
-        $checkup = Checkup::where( 'id', $id )->update( [ 'annotation_count' => 1 ] );
+        $data = $request->checkup;
+        $checkup = Checkup::where( 'id', $id )->update( [ 'annotation_count' => $data["annotation_count"], "annotations"=>$data['annotations'] ] );
         return json_encode( [ 'msg'=>'Success', 'status'=>200 ] );
     }
 

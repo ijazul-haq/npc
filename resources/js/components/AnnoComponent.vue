@@ -1,6 +1,10 @@
 <template>
   <div class="card-body">
-    <div v-if="message" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div
+      v-if="message"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
       <strong>{{ message }}</strong>
     </div>
     <div class="row">
@@ -16,7 +20,6 @@
                 <td>Gender: {{ checkup.gender }}</td>
               </tr>
             </table>
-
           </div>
         </div>
         <hr class="my-1" />
@@ -42,7 +45,6 @@
 
             <h5><b>Acupunture</b></h5>
             <p>{{ checkup.acupuncture }}</p>
-
           </div>
         </div>
         <hr class="my-1" />
@@ -57,61 +59,25 @@
           <h4>Rate Patient's condition</h4>
           <div class="text-center mb-3">
             <div class="d-inline mx-3">Bad</div>
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio1">1</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio2">2</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio3">3</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio4">4</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio5">5</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio6">6</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio7"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio7">7</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio8"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio8">8</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio9"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio9">9</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio10"
-                value="patientCondition" />
-              <label class="form-check-label" for="inlineRadio10">10</label>
-            </div>
+              <div class="form-check form-check-inline" v-for="(item, index) in radioButtons" :key="index">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  :id="`inlineRadio${item}`"
+                  :value="item"
+                  @change="changeHangler"
+                />
+                <label class="form-check-label" :for="`inlineRadio${item}`">{{item}}</label>
+              </div>
             <div class="d-inline mx-3">Good</div>
           </div>
           <div v-if="loading" class="col col-md-1">
-            <div class="spinner-border text-success" style="display: inline-block" role="status">
+            <div
+              class="spinner-border text-success"
+              style="display: inline-block"
+              role="status"
+            >
               <!-- <span class="sr-only">Loading...</span> -->
             </div>
           </div>
@@ -127,8 +93,14 @@
         <a :href="nextUrl" type="button" class="btn btn-secondary m-1">
           SKIP
         </a>
-        <div style="width: 2px; background-color: #cccccc; margin: 6px 8px"></div>
-        <button @click="submitHandler" type="button" class="btn btn-primary m-1">
+        <div
+          style="width: 2px; background-color: #cccccc; margin: 6px 8px"
+        ></div>
+        <button
+          @click="submitHandler"
+          type="button"
+          class="btn btn-primary m-1"
+        >
           SAVE AND NEXT
         </button>
       </div>
@@ -142,14 +114,22 @@ export default {
   data() {
     return {
       message: "",
+      checkupData:{},
       loading: false,
       skipUrl: "",
       previouseUrl: "",
       removeUrl: "",
       nextUrl: "",
+      radioButtons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     };
   },
   methods: {
+    changeHangler(e){
+    const newVal = e.target.value
+      this.checkupData.annotations = this.checkupData.annotations?[...this.checkupData.annotations, Number(newVal)]:[Number(newVal)];
+      this.checkupData.annotation_count=this.checkupData.annotation_count?this.checkupData.annotation_count+1:1
+    },
+
     submitHandler() {
       const route = this.baseurl + "/sentence/edit/" + this.checkup.id;
       var myHeaders = new Headers();
@@ -169,7 +149,7 @@ export default {
         })
         .catch((err) => {
           alert("Somthing went wrong");
-        });  
+        });
     },
 
     onSkip(e) {
@@ -194,6 +174,7 @@ export default {
   mounted() {
     this.skipUrl = `${this.baseurl}/sentence/skip/${this.checkup.id}`;
     this.previouseUrl = `${this.baseurl}/sentence/previouse/${this.checkup.id}`;
+    this.checkupData = this.checkup;
   },
 };
 </script>

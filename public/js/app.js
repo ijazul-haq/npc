@@ -5262,34 +5262,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -5405,14 +5389,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       message: "",
+      checkupData: {},
       loading: false,
       skipUrl: "",
       previouseUrl: "",
       removeUrl: "",
-      nextUrl: ""
+      nextUrl: "",
+      radioButtons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     };
   },
   methods: {
+    changeHangler: function changeHangler(e) {
+      var newVal = e.target.value;
+      this.checkupData.annotations = this.checkupData.annotations ? [].concat(_toConsumableArray(this.checkupData.annotations), [Number(newVal)]) : [Number(newVal)];
+      this.checkupData.annotation_count = this.checkupData.annotation_count ? this.checkupData.annotation_count + 1 : 1;
+    },
     submitHandler: function submitHandler() {
       var route = this.baseurl + "/sentence/edit/" + this.checkup.id;
       var myHeaders = new Headers();
@@ -5420,10 +5411,10 @@ __webpack_require__.r(__webpack_exports__);
       myHeaders.append("X-CSRF-TOKEN", this.csrf);
       fetch(route, {
         method: "POST",
-        headers: myHeaders // body: JSON.stringify({
-        //   checkup: this.checkup,
-        // }),
-
+        headers: myHeaders,
+        body: JSON.stringify({
+          checkup: this.checkup
+        })
       }).then(function (res) {
         if (res.status === 200) {
           window.location.reload();
@@ -5454,6 +5445,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.skipUrl = "".concat(this.baseurl, "/sentence/skip/").concat(this.checkup.id);
     this.previouseUrl = "".concat(this.baseurl, "/sentence/previouse/").concat(this.checkup.id);
+    this.checkupData = this.checkup;
   }
 });
 
@@ -29929,7 +29921,44 @@ var render = function () {
         _c("div", { staticClass: "text-center checkup-rating" }, [
           _c("h4", [_vm._v("Rate Patient's condition")]),
           _vm._v(" "),
-          _vm._m(8),
+          _c(
+            "div",
+            { staticClass: "text-center mb-3" },
+            [
+              _c("div", { staticClass: "d-inline mx-3" }, [_vm._v("Bad")]),
+              _vm._v(" "),
+              _vm._l(_vm.radioButtons, function (item, index) {
+                return _c(
+                  "div",
+                  { key: index, staticClass: "form-check form-check-inline" },
+                  [
+                    _c("input", {
+                      staticClass: "form-check-input",
+                      attrs: {
+                        type: "radio",
+                        name: "inlineRadioOptions",
+                        id: "inlineRadio" + item,
+                      },
+                      domProps: { value: item },
+                      on: { change: _vm.changeHangler },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-check-label",
+                        attrs: { for: "inlineRadio" + item },
+                      },
+                      [_vm._v(_vm._s(item))]
+                    ),
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-inline mx-3" }, [_vm._v("Good")]),
+            ],
+            2
+          ),
           _vm._v(" "),
           _vm.loading
             ? _c("div", { staticClass: "col col-md-1" }, [
@@ -30035,196 +30064,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h5", [_c("b", [_vm._v("Clinical Tests")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center mb-3" }, [
-      _c("div", { staticClass: "d-inline mx-3" }, [_vm._v("Bad")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio1",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio1" } },
-          [_vm._v("1")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio2",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio2" } },
-          [_vm._v("2")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio3",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio3" } },
-          [_vm._v("3")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio4",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio4" } },
-          [_vm._v("4")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio5",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio5" } },
-          [_vm._v("5")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio6",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio6" } },
-          [_vm._v("6")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio7",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio7" } },
-          [_vm._v("7")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio8",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio8" } },
-          [_vm._v("8")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio9",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio9" } },
-          [_vm._v("9")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check form-check-inline" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "inlineRadioOptions",
-            id: "inlineRadio10",
-            value: "patientCondition",
-          },
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "inlineRadio10" } },
-          [_vm._v("10")]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-inline mx-3" }, [_vm._v("Good")]),
-    ])
   },
 ]
 render._withStripped = true
