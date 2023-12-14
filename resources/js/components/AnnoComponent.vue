@@ -151,15 +151,10 @@ export default {
   },
   methods: {
     submitHandler() {
-      console.log('1')
       const route = this.baseurl + "/sentence/edit/" + this.checkup.id;
-      console.log('2')
       var myHeaders = new Headers();
-      console.log('3')
       myHeaders.append("Content-Type", "application/json; charset=UTF-8");
-      console.log('4')
       myHeaders.append("X-CSRF-TOKEN", this.csrf);
-      console.log('5')
       fetch(route, {
         method: "POST",
         headers: myHeaders,
@@ -168,7 +163,6 @@ export default {
         }),
       })
         .then((res) => {
-          console.log('6');
           if (res.status === 200) {
             window.location.reload();
           }
@@ -176,7 +170,6 @@ export default {
         .catch((err) => {
           alert("Somthing went wrong");
         });  
-      console.log('7')
     },
 
     onSkip(e) {

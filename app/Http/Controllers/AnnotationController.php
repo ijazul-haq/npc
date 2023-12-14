@@ -27,7 +27,6 @@ class AnnotationController extends Controller {
     }
 
     public function edit( Request $request, $id ) {
-        echo 'Hello=================';
         $data = json_encode( $request->checkup, JSON_UNESCAPED_UNICODE );
         $checkup = Checkup::where( 'id', $id )->update( [ 'annotation_count' => 1 ] );
         return json_encode( [ 'msg'=>'Success', 'status'=>200 ] );

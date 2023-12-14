@@ -5414,31 +5414,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitHandler: function submitHandler() {
-      console.log('1');
       var route = this.baseurl + "/sentence/edit/" + this.checkup.id;
-      console.log('2');
       var myHeaders = new Headers();
-      console.log('3');
       myHeaders.append("Content-Type", "application/json; charset=UTF-8");
-      console.log('4');
       myHeaders.append("X-CSRF-TOKEN", this.csrf);
-      console.log('5');
       fetch(route, {
         method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify({
-          checkup: this.checkup
-        })
-      }).then(function (res) {
-        console.log('6');
+        headers: myHeaders // body: JSON.stringify({
+        //   checkup: this.checkup,
+        // }),
 
+      }).then(function (res) {
         if (res.status === 200) {
           window.location.reload();
         }
       })["catch"](function (err) {
         alert("Somthing went wrong");
       });
-      console.log('7');
     },
     onSkip: function onSkip(e) {
       var _this = this;
